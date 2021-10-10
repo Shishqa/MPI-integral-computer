@@ -1,0 +1,43 @@
+---
+
+- name: Run benchmark remotely
+  hosts: remote
+  tasks:
+    - name: Copy files to the remote
+      copy:
+        src: ../
+        dest: task-1
+
+    - name: Run CMake
+      shell:
+        cmd: cmake .
+        chdir: task-1
+
+    - name: Build executable
+      shell:
+        cmd: module add mpi/openmpi4-x86_64 && make
+        creates: task-1/bin/compute-integral
+        chdir: task-1
+
+    - name: Run benchmark
+      shell:
+        cmd: sbatch scripts/run-sbatch-config.sh
+        chdir: task-1
+
+    - name: Exterminate mankind
+      pause:
+        prompt: Wait till slurm jobs are finished and press return to continue. Press Ctrl+c and then "a" to abort.
+
+    - name: Fetch data
+      fetch:
+        src: task-1/output.txt
+        dest: ../
+        flat: yes
+        validate_checksum: no
+
+- hosts: localhost
+  tasks:
+    - name: Gather data from output.txt
+      shell:
+        cmd: /bin/bash ../scripts/gather-data.sh ../output.txt > result.csv
+
