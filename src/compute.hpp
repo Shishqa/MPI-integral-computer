@@ -51,7 +51,9 @@ class Partition {
   size_t n_parts_;
 };
 
-double ComputeIntegral(RealFunc func, const Partition& prt, size_t n_threads);
+double ComputeIntegral(RealFunc func, const Partition& prt);
+
+double ComputeIntegralOMP(RealFunc func, const Partition& prt, size_t n_threads);
 
 ////////////////////////////////////////////////////////////////////////////////
 

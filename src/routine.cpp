@@ -1,4 +1,5 @@
 #include <mpi.h>
+#include <omp.h>
 
 #include "routine.hpp"
 #include "utils.hpp"
@@ -67,7 +68,7 @@ double Routine::RunLocal(compute::RealFunc func, const compute::Partition& prt)
   double local_integral = 0.0;
   double local_time = utils::MeasureMpiTime(
       [&func, &prt, &local_integral]() {
-    local_integral = compute::ComputeIntegral(func, prt, 1);
+    local_integral = compute::ComputeIntegral(func, prt);
   });
 
   logger_.Log(Logger::ALL) <<
@@ -129,7 +130,7 @@ double Routine::RunDistrib(compute::RealFunc func, const compute::Partition& prt
       return;
     }
 
-    double local_integral = compute::ComputeIntegral(func, local_prt, n_threads);
+    double local_integral = compute::ComputeIntegralOMP(func, local_prt, n_threads);
 
     distrib_integrals = GatherIntegrals(local_integral);
     if (errno_ != MPI_SUCCESS) {
@@ -170,7 +171,8 @@ void Routine::Run(compute::RealFunc target_func, const compute::Partition& prt,
     double acceleration = local_time / distrib_time;
     logger_.Log(Logger::ALL) << "acceleration = " << acceleration << std::endl;
     logger_.Log(Logger::LESS) <<
-      prt.StepsCount() << "," << world_size_ << "," << acceleration << std::endl;
+      prt.StepsCount() << "," << world_size_ << "," <<
+      n_threads << "," << acceleration << std::endl;
   }
 }
 

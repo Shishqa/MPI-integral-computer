@@ -6,6 +6,9 @@ for n in 1000 1000000 100000000
 do
   for p in {1..8}
   do
-    mpiexec -np $p bin/compute-integral $n 1
+    for t in {1..8}
+    do
+      OMP_DYNAMIC=false mpiexec -np $p bin/compute-integral $n $t
+    done
   done
 done

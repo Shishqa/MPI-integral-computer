@@ -19,7 +19,7 @@ static constexpr double TO   = 1.0;
 
 void PrintUsage(const char *prog_name)
 {
-  printf("usage: %s n-steps threads-per-process\n\n", prog_name);
+  printf("usage: %s n-steps\n\n", prog_name);
 }
 
 int main(int argc, char *argv[])

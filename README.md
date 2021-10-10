@@ -1,4 +1,4 @@
-# MPI Integral Computer
+# MPI&OpenMP Integral Computer
 
 - [The Task itself](https://gitlab.com/fpmi-atp/pd2021-supplementary/global/-/blob/master/homeworks/task1_mpi.md)
 
@@ -13,13 +13,14 @@ different nodes and measure an acceleration.
 
 ## Report
 
-![report](./results/report.png)
+![report](./results/acceleration-proc.png)
 
 Detailed report can be found in [report.ipynb](./results/report.ipynb) jupyter notebook.
 
 ## Prerequisites
 
 - [OpenMPI](https://www.open-mpi.org/doc/) distribution
+- OpenMP
 - CMake
 - Access to the cluster running [Slurm Workload Manager](https://slurm.schedmd.com/documentation.html) (optional)
 - Ansible (optional)
@@ -38,7 +39,7 @@ make
 
 ### Run locally
 ```bash
-mpiexec -n 4 ./bin/count-integral 123 0
+mpiexec -n 4 ./bin/count-integral 1000000 1
 ```
 
 ### Run on cluster
