@@ -1,0 +1,1 @@
+remote ansible_host=USER@calc.cod.phystech.edu ansible_ssh_pass=PASS

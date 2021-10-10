@@ -1,5 +1,4 @@
 ---
-
 - name: Run benchmark remotely
   hosts: remote
   tasks:
@@ -39,5 +38,5 @@
   tasks:
     - name: Gather data from output.txt
       shell:
-        cmd: /bin/bash ../scripts/gather-data.sh ../output.txt > result.csv
+        cmd: /bin/bash ../scripts/gather-data.sh ../output.txt > ../result.csv
 
